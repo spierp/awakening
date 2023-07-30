@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Awakening</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div id="scene">
+        <div id="title-subtitle-container">
+            <div id="title"></div>
+            <div id="subtitle"></div>
+        </div>
+        <div id="content"></div>
+        <audio id="background-audio" preload="auto" loop>
+            <source id="background-audio-source" src="" type="audio/mp3">
+        </audio>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
