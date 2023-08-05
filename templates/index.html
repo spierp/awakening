@@ -3,17 +3,26 @@
 <head>
     <title>The Awakening</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="scene">
         <div id="title-subtitle-container">
-            <div id="title"></div>
-            <div id="subtitle"></div>
+            <div class="text-background">
+                <div id="title"></div>
+                <div id="subtitle"></div>
+            </div>
         </div>
-        <div id="content"></div>
+        <div id="content-wrapper">
+            <div id="content" class="text-background"></div> <!-- added text-background class -->
+        </div>
+        <div id="options-container"></div>
         <audio id="background-audio" preload="auto" loop>
             <source id="background-audio-source" src="" type="audio/mp3">
         </audio>
+        <video id="background-video" loop muted autoplay>
+            <source id="video-source" type="video/mov">
+          </video>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

@@ -1,5 +1,16 @@
 {
     "title": "The Awakening",
-    "subtitle": "By Benjamin and Peter Spier",
-    "content": "The story of some guys and some other guys."
+    "subtitle": "By Ben Spier and Jack Carpenter",
+    "content": "Step into the magical kingdom of Hyrule, where a farm boy named Kael holds a secret legacy. As ancestral spirits stir from their slumber, a menacing darkness looms. Journey with Kael, awaken the power within, and turn the tides to save the realm!",
+    "options": [
+      {
+          "text": ">> Start Game",
+          "nextScene": 2
+      }
+  ],
+  "positions": {
+    "title": {"row": 1, "column": 1},
+    "content": {"row": 2, "column": 1},
+    "options": {"row": 2, "column": 2}
+}
   }

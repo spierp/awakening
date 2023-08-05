@@ -14,7 +14,8 @@ def scene(scene_number):
         with open(f'scenes/scene_{scene_number}.json', 'r') as file:
             data = json.load(file)
         data['image_url'] = url_for('static', filename=f'images/scene_{scene_number}.png')
-        data['audio_url'] = url_for('static', filename=f'audio/{scene_number}.mp3')
+        data['audio_url'] = url_for('static', filename=f'audio/scene_{scene_number}.mp3')
+        data['video_url'] = url_for('static', filename=f'video/scene_{scene_number}.mov')
         return jsonify(data)
     except FileNotFoundError:
         return jsonify({'error': 'Scene not found'}), 404
