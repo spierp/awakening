@@ -104,7 +104,21 @@ body {
     z-index: -1; /* Make sure the video is behind your content */
 }
 
+/* Media query for smaller screens */
+@media screen and (max-width: 800px) {
+    #title {
+        font-size: 18px;
+    }
 
+    #subtitle {
+        font-size: 12px;
+    }
 
+    #content {
+        font-size: 10px;
+    }
 
-
+    #options-container {
+        font-size: 10px;
+    }
+}
