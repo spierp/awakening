@@ -20,9 +20,9 @@
         <audio id="background-audio" preload="auto" loop>
             <source id="background-audio-source" src="" type="audio/mp3">
         </audio>
-        <video id="background-video" loop muted autoplay>
-            <source id="video-source" type="video/mov">
-          </video>
+        <video id="background-video" loop autoplay muted playsinline>
+            <source src="" type="video/mov">
+        </video>        
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
