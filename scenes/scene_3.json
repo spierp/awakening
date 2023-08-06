@@ -14,7 +14,8 @@
     "options": {"row": 2, "column": 2}
   },
   "modal": {
-      "image_url": "/images/amulet.png",
-      "description": "This is a description about an amulet."
+      "image_url": "images/amulet.png",
+      "description": "Ancient family amulet.",
+      "inventory_item": "amulet"
   }
 }

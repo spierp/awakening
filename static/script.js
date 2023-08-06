@@ -9,15 +9,46 @@ let modal = document.getElementById('modal');
 let title = document.getElementById('title'); 
 let subtitle = document.getElementById('subtitle');
 let currentSceneData = null; 
+let isModalOpen = false;
+
+let inventory = [];
+
+function addItemToInventory(item) {
+    if (!inventory.includes(item)) {
+        inventory.push(item);
+        console.log("Added item:", item);
+        if (!isModalOpen) {
+            renderInventory();
+        }
+    }
+}
+
+function renderInventory() {
+    console.log("Rendering Inventory"); // Add this
+    const container = document.getElementById('inventory');
+    container.innerHTML = ''; // Clear the current inventory
+    inventory.forEach(item => {
+        const img = document.createElement('img');
+        img.src = `/static/images/${item}_inv.png`; // Path to your icons
+        img.classList.add('inventory-icon');
+        container.appendChild(img);
+    });
+}
 
 document.getElementById('closeModal').addEventListener('click', function() {
     modal.style.opacity = "0";
+    isModalOpen = false;  // set it to false when closing
     setTimeout(function() {
         modal.style.display = "none";
     }, 1000);
     if (currentSceneData) {
         // Load the options once the modal is closed
         loadOptions(currentSceneData.options);
+
+        // If the current scene has a modal with an inventory item, add it to the inventory
+        if (currentSceneData.modal && currentSceneData.modal.inventory_item) {
+            addItemToInventory(currentSceneData.modal.inventory_item);
+        }
     }
 });
 
@@ -43,8 +74,14 @@ function loadOptions(options) {
     let optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
 
-    for (let i = 0; i < options.length; i++) {
-        let option = options[i];
+    // Filter options based on inventory
+    const availableOptions = options.filter(option => {
+        // If the option doesn't specify an inventory item, or if it does and the player has that item, include the option
+        return !option.inventory_item || inventory.includes(option.inventory_item);
+    });
+
+    for (let i = 0; i < availableOptions.length; i++) {
+        let option = availableOptions[i];
 
         let optionDiv = document.createElement('div');
         optionDiv.textContent = option.text;
@@ -62,6 +99,7 @@ function loadOptions(options) {
         optionsContainer.style.opacity = 1;
     }, 500);
 }
+
 
 
 function loadScene(sceneNumber) {
@@ -131,6 +169,7 @@ function loadScene(sceneNumber) {
                         // Wait for the typing to finish before displaying the modal
                         setTimeout(() => {
                             modal.style.display = "block";
+                            isModalOpen = true;  // set it to true when opening
                             setTimeout(function() {
                                 modal.style.opacity = "1";
                             }, 10); // A slight delay ensures the opacity transition takes effect.

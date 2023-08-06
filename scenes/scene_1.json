@@ -6,7 +6,12 @@
       {
           "text": ">> Start Game",
           "nextScene": 2
-      }
+      },
+      {
+        "inventory_item": "amulet",
+        "text": "> this options is available if there is an amulet in inventory",
+        "nextScene": 5
+    }
   ],
   "positions": {
     "title": {"row": 1, "column": 1},
