@@ -16,6 +16,11 @@ def scene(scene_number):
         data['image_url'] = url_for('static', filename=f'images/scene_{scene_number}.png')
         data['audio_url'] = url_for('static', filename=f'audio/scene_{scene_number}.mp3')
         data['video_url'] = url_for('static', filename=f'video/scene_{scene_number}.mov')
+        
+        if 'modal' in data and 'image_url' in data['modal']:
+            modal_image_path = data['modal']['image_url']
+            data['modal']['image_url'] = url_for('static', filename=modal_image_path)
+        
         return jsonify(data)
     except FileNotFoundError:
         return jsonify({'error': 'Scene not found'}), 404

@@ -1,7 +1,8 @@
 const VIDEO_CACHE = 'video-cache-v1';
 const videoFiles = [
-    'static/video/scene1.mov',
-    'static/video/scene2.mov',
+    'static/video/scene_1.mov',
+    'static/video/scene_2.mov',
+    'static/video/scene_3.mov',
 ];
 
 self.addEventListener('install', function(event) {

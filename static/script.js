@@ -5,6 +5,21 @@ let audio = document.getElementById('background-audio');
 let audioSource = document.getElementById('background-audio-source');
 let video = document.getElementById('background-video');
 let videoSource = document.getElementById('video-source');
+let modal = document.getElementById('modal');
+let title = document.getElementById('title'); 
+let subtitle = document.getElementById('subtitle');
+let currentSceneData = null; 
+
+document.getElementById('closeModal').addEventListener('click', function() {
+    modal.style.opacity = "0";
+    setTimeout(function() {
+        modal.style.display = "none";
+    }, 1000);
+    if (currentSceneData) {
+        // Load the options once the modal is closed
+        loadOptions(currentSceneData.options);
+    }
+});
 
 function typeText(text) {
     const content = document.getElementById('content');
@@ -67,6 +82,7 @@ function loadScene(sceneNumber) {
             return response.json()
         })
         .then(data => {
+                currentSceneData = data; // Store the current scene data in the global variable    
                 video.src = data.video_url;
                 let positions = data.positions;
 
@@ -84,6 +100,18 @@ function loadScene(sceneNumber) {
                 video.load();
                 audioSource.src = data.audio_url;
                 audio.load();
+                
+                if (data.modal && data.modal.image_url && data.modal.description) {
+                    let modalImage = document.getElementById('modal-image');
+                    let modalDescription = document.getElementById('modal-description');
+                    
+                    modalImage.src = data.modal.image_url;
+                    modalDescription.textContent = data.modal.description;
+                                    
+                } else {
+                    // If no modal data exists, hide the modal
+                    modal.style.display = "none";
+                }
 
                 scene.style.opacity = 1;
 
@@ -99,9 +127,21 @@ function loadScene(sceneNumber) {
                 
                     let typingTime = typeText(data.content);
                 
-                    setTimeout(() => {
-                        loadOptions(data.options);
-                    }, typingTime);
+                    if (data.modal && data.modal.image_url && data.modal.description) {
+                        // Wait for the typing to finish before displaying the modal
+                        setTimeout(() => {
+                            modal.style.display = "block";
+                            setTimeout(function() {
+                                modal.style.opacity = "1";
+                            }, 10); // A slight delay ensures the opacity transition takes effect.
+                        }, typingTime + 1000);
+                    } else {
+                        // If there's no modal, load the options after typing completes
+                        setTimeout(() => {
+                            loadOptions(data.options);
+                        }, typingTime);
+                    }
+                
                 }, 2000);
             })
             .catch(error => {
@@ -124,3 +164,4 @@ if ('serviceWorker' in navigator) {
 window.onload = function() {
     loadScene(1);
 };
+
