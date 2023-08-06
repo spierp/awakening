@@ -12,9 +12,5 @@
     "title": {"row": 1, "column": 1},
     "content": {"row": 2, "column": 1},
     "options": {"row": 2, "column": 2}
-  },
-  "modal": {
-      "image_url": "/images/amulet.png",
-      "description": "This is a description about an amulet."
   }
 }
