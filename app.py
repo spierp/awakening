@@ -14,7 +14,11 @@ def scene(scene_number):
         with open(f'scenes/scene_{scene_number}.json', 'r') as file:
             data = json.load(file)
         data['image_url'] = url_for('static', filename=f'images/scene_{scene_number}.png')
-        data['audio_url'] = url_for('static', filename=f'audio/scene_{scene_number}.mp3')
+
+        if 'audio' in data:
+            audio_path = data['audio']
+            data['audio_url'] = url_for('static', filename=audio_path)
+
         data['video_url'] = url_for('static', filename=f'video/scene_{scene_number}.mov')
         
         if 'modal' in data and 'image_url' in data['modal']:

@@ -133,11 +133,16 @@ function loadScene(sceneNumber) {
                 optionsContainer.style.gridColumnStart = positions.options.column;
                 optionsContainer.style.gridRowStart = positions.options.row;
                 
-                // scene.style.backgroundImage = `url(${data.image_url})`;
                 videoSource.src = data.video_url;
                 video.load();
-                audioSource.src = data.audio_url;
-                audio.load();
+
+                if (data.audio_url) { 
+                    audioSource.src = data.audio_url;
+                    audio.load(); 
+                    setTimeout(() => {
+                        audio.play();
+                    }, 500);
+                }
                 
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
@@ -155,10 +160,6 @@ function loadScene(sceneNumber) {
 
                 title.textContent = data.title;
                 subtitle.textContent = data.subtitle;
-
-                setTimeout(() => {
-                    audio.play();
-                }, 1000);
 
                 setTimeout(() => {
                     titleSubtitleContainer.style.opacity = 1;
