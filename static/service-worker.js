@@ -3,6 +3,10 @@ const videoFiles = [
     '/static/video/scene_1.mov',
     '/static/video/scene_2.mov',
     '/static/video/scene_3.mov',
+    '/static/video/scene_4.mov',
+    '/static/video/scene_5.mov',
+    '/static/video/scene_6.mov',
+    '/static/video/scene_7.mov',
 ];
 
 self.addEventListener('install', function(event) {

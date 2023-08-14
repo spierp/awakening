@@ -1,0 +1,16 @@
+{
+    "title": "",
+    "subtitle": "Liora",
+    "content": "She'd speak of Liora, a graceful mage who could bend and shape water at her will. With her trusty spear by her side, she could summon tidal waves and rainstorms, defending Hyrule against invaders from the seas. The lakes and rivers would heed her call, ensuring bounties for her people.",
+    "options": [
+      {
+          "text": ">> Next",
+          "nextScene": 5
+      }
+  ],
+  "positions": {
+    "title": {"row": 1, "column": 1},
+    "content": {"row": 2, "column": 1},
+    "options": {"row": 2, "column": 2}
+  }
+}

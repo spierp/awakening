@@ -1,21 +1,16 @@
 {
-    "audio": "audio/hyrule.mp3",
-    "title": "The Chasm",
-    "subtitle": "",
-    "content": "One morning, Kael jolts awake as his bed shakes. Peering out his window, he gasps. A massive sinkhole in the earth has appeared in front of grandma's house. A strange colorful mist swirls from the chasm. What should Kael do?",
+    "title": "",
+    "subtitle": "Kael's home on the farm.",
+    "content": "Orphaned as an infant, Kael's caring Aunt Maela took him under her wing, their bond was as strong as any mother and son's. Their quaint farm stood outside of town amidst rolling hills and shimmering lakes. Kael's days danced by—each morning, he'd fish by the babbling brook and construct elaborate forts in the trees. By noon he'd practice archery, dreaming of big adventures. In the evening, Aunt Maela would share tales of their ancestors under the starlit sky.",
     "options": [
       {
-          "text": "> Grab a rope and climb down the hole to investigate",
-          "nextScene": 1
-      },
-      {
-          "text": "> Check and make sure Aunt Hammi is safe, and make plans for what to do next.",
+          "text": ">> Next",
           "nextScene": 3
       }
   ],
   "positions": {
-    "title": {"row": 1, "column": 2},
-    "content": {"row": 1, "column": 1},
+    "title": {"row": 1, "column": 1},
+    "content": {"row": 2, "column": 1},
     "options": {"row": 2, "column": 2}
   }
 }
