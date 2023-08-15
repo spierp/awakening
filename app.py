@@ -19,6 +19,10 @@ def scene(scene_number):
             audio_path = data['audio']
             data['audio_url'] = url_for('static', filename=audio_path)
 
+        voiceover_path = f'voiceover/scene_{scene_number}.mp3'
+        if os.path.exists(f'static/{voiceover_path}'):
+            data['voiceover_url'] = url_for('static', filename=voiceover_path)
+
         data['video_url'] = url_for('static', filename=f'video/scene_{scene_number}.mov')
         
         if 'modal' in data and 'image_url' in data['modal']:

@@ -10,6 +10,11 @@ let title = document.getElementById('title');
 let subtitle = document.getElementById('subtitle');
 let currentSceneData = null; 
 let isModalOpen = false;
+let voiceoverAudio = document.getElementById('voiceover-audio');
+let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
+
+audio.volume = 0.7;
+voiceoverAudio.volume = 1.0;
 
 let inventory = [];
 
@@ -120,7 +125,8 @@ function loadScene(sceneNumber) {
             return response.json()
         })
         .then(data => {
-                currentSceneData = data; // Store the current scene data in the global variable    
+                currentSceneData = data; // Store the current scene data in the global variable 
+                voiceoverAudio.pause();   
                 video.src = data.video_url;
                 let positions = data.positions;
 
@@ -144,6 +150,14 @@ function loadScene(sceneNumber) {
                     }, 500);
                 }
                 
+                if (data.voiceover_url) {
+                    voiceoverAudioSource.src = data.voiceover_url;
+                    voiceoverAudio.load();
+                    setTimeout(() => {
+                        voiceoverAudio.play();
+                    }, 500);
+                }
+
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
                     let modalDescription = document.getElementById('modal-description');
