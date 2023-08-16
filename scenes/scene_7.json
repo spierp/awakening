@@ -1,5 +1,12 @@
 {
   "audio": "audio/hyrule.mp3",
+  "kenBurns": {
+    "startScale": "1.5",
+    "endScale": "1.0",
+    "startPosition": "left top",
+    "endPosition": "center center",
+    "duration": "25s"
+  },  
   "title": "Ancient Amulet",
   "subtitle": "",
   "content": "'I always knew this day would arrive,' Maela sighed, 'but I hoped it would come later, Kael. Hyrule faces great peril. You must learn our family's hidden secrets. This amulet was your father's, passed through generations. It's not just a pretty neckless; it's reservoir of ancient powers. If misused, it's a serious danger to everyone. Our ancestors bound their essence into this amulet. With it, you can call forth their wisdom, strength, and powers.'",

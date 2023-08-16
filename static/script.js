@@ -128,7 +128,6 @@ function loadScene(sceneNumber) {
 
     scene.style.opacity = 0;
     titleSubtitleContainer.style.opacity = 0;
-    audio.pause();
 
     setTimeout(() => {
         content.innerHTML = '';
@@ -143,6 +142,18 @@ function loadScene(sceneNumber) {
                 currentSceneData = data; // Store the current scene data in the global variable 
                 voiceoverAudio.pause();   
                 video.src = data.video_url;
+
+                // Check if the next scene's audio is the same as the current one.
+                if (audioSource.src !== new URL(data.audio_url, window.location.origin).href) {
+                    // If they're different, update the audio source and play.
+                    audio.pause();
+                    audioSource.src = data.audio_url;
+                    audio.load(); 
+                    setTimeout(() => {
+                        audio.play();
+                    }, 500);
+                }
+
                 let positions = data.positions;
 
                 titleSubtitleContainer.style.gridColumnStart = positions.title.column;
@@ -154,16 +165,7 @@ function loadScene(sceneNumber) {
                 optionsContainer.style.gridColumnStart = positions.options.column;
                 optionsContainer.style.gridRowStart = positions.options.row;
                 
-                videoSource.src = data.video_url;
                 video.load();
-
-                if (data.audio_url) { 
-                    audioSource.src = data.audio_url;
-                    audio.load(); 
-                    setTimeout(() => {
-                        audio.play();
-                    }, 500);
-                }
                 
                 if (data.voiceover_url) {
                     voiceoverAudioSource.src = data.voiceover_url;

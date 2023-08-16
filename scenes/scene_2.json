@@ -3,9 +3,9 @@
   "kenBurns": {
     "startScale": "1.5",
     "endScale": "1.0",
-    "startPosition": "right center",
+    "startPosition": "right bottom",
     "endPosition": "center center",
-    "duration": "20s"
+    "duration": "25s"
   },  
   "title": "",
     "subtitle": "Kael's home on the farm.",
