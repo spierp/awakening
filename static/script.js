@@ -154,17 +154,31 @@ function loadScene(sceneNumber) {
             return response.json()
         })
         .then(data => {
-                currentSceneData = data; // Store the current scene data in the global variable 
-                voiceoverAudio.pause();   
+                currentSceneData = data; 
+
+                // First, try to activate the AudioContext using the workaround:
+                audio.pause();
+                audioSource.src = data.audio_url;
+                audio.load();
+                audio.muted = true;
+                audio.play().then(() => {
+                    // Once the audio starts playing, unmute it after a short delay
+                    setTimeout(() => {
+                        audio.muted = false;
+                    }, 100);
+                }).catch(error => {
+                    console.error("Error playing audio:", error);
+                });
+
+                // Now, proceed with loading your scene as usual
+                voiceoverAudio.pause();
                 video.src = data.video_url;
 
                 if (backgroundSound && backgroundSound._src[0] !== data.audio_url) {
                     backgroundSound.unload();
-                    console.log("unloading background sound")
                     backgroundSound = null;
                 }
-                
-                // If backgroundSound is null or doesn't exist, create a new instance
+
                 if (!backgroundSound) {
                     backgroundSound = new Howl({
                         src: [data.audio_url],
