@@ -12,9 +12,7 @@ let currentSceneData = null;
 let isModalOpen = false;
 let voiceoverAudio = document.getElementById('voiceover-audio');
 let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
-
-audio.volume = 0.8;
-voiceoverAudio.volume = 1.0;
+let backgroundSound = null;
 
 let inventory = [];
 
@@ -150,19 +148,19 @@ function loadScene(sceneNumber) {
                 voiceoverAudio.pause();   
                 video.src = data.video_url;
 
-                if (audioSource.src !== new URL(data.audio_url, window.location.origin).href) {
-                    audio.pause();
-                    audioSource.src = data.audio_url;
-                    audio.load();
-                    audio.muted = true; 
-                    audio.play().then(() => {
-                        // Once the audio starts playing, unmute it after a short delay
-                        setTimeout(() => {
-                            audio.muted = false;
-                        }, 100);
-                    }).catch(error => {
-                        console.error("Error playing audio:", error);
+                if (backgroundSound && backgroundSound._src[0] !== data.audio_url) {
+                    backgroundSound.unload();
+                    backgroundSound = null;
+                }
+                
+                // If backgroundSound is null or doesn't exist, create a new instance
+                if (!backgroundSound) {
+                    backgroundSound = new Howl({
+                        src: [data.audio_url],
+                        volume: 0.8,
+                        loop: true
                     });
+                    backgroundSound.play();
                 }
 
                 let positions = data.positions;
@@ -179,9 +177,12 @@ function loadScene(sceneNumber) {
                 video.load();
                 
                 if (data.voiceover_url) {
-                    voiceoverAudioSource.src = data.voiceover_url;
-                    voiceoverAudio.load();
-                    voiceoverAudio.play();
+                    // voiceoverSound.unload();
+                    let voiceoverSound = new Howl({
+                      src: [data.voiceover_url],
+                      volume: 1.0
+                    });
+                    voiceoverSound.play();
                 }
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
