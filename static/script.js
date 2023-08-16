@@ -57,6 +57,21 @@ document.getElementById('closeModal').addEventListener('click', function() {
     }
 });
 
+function applyKenBurnsEffect(data) {
+    let video = document.getElementById('background-video');
+
+    if (data.kenBurns) {
+        video.style.setProperty('--startScale', data.kenBurns.startScale);
+        video.style.setProperty('--endScale', data.kenBurns.endScale);
+        video.style.setProperty('--startPosition', data.kenBurns.startPosition);
+        video.style.setProperty('--endPosition', data.kenBurns.endPosition);
+        video.style.animation = `kenBurns ${data.kenBurns.duration} forwards`;
+    } else {
+        // If no Ken Burns settings, reset animation
+        video.style.animation = '';
+    }
+}
+
 function typeText(text) {
     const content = document.getElementById('content');
     content.innerHTML = '';
@@ -174,6 +189,8 @@ function loadScene(sceneNumber) {
 
                 title.textContent = data.title;
                 subtitle.textContent = data.subtitle;
+
+                applyKenBurnsEffect(data);
 
                 setTimeout(() => {
                     titleSubtitleContainer.style.opacity = 1;

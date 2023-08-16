@@ -1,7 +1,8 @@
 {
+    "audio": "audio/crickets.mp3",   
     "title": "",
     "subtitle": "Kael's home on the farm.",
-    "content": "Kael's and his aunt were no ordinary Hylians.  They came from a line of powerful mages, but much of their history and powers were lost during times of war.  Still, Aunt Maela knew some of the stories.",
+    "content": "Kael and his aunt were no ordinary Hylians.  They came from a line of powerful mages, but much of their history and powers were lost during times of war.  Still, Aunt Maela knew some of the stories.",
     "options": [
       {
           "text": ">> Next",
