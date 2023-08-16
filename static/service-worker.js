@@ -14,12 +14,16 @@ const videoFiles = [
 
 const audioFiles = [
   '/static/audio/crickets.mp3',
-  // ... other audio files
+  '/static/audio/ominous.mp3',
 ];
 
 const voiceoverFiles = [
   '/static/voiceover/scene_2.mp3',
-  // ... other voiceover files
+  '/static/voiceover/scene_3.mp3',
+  '/static/voiceover/scene_4.mp3',
+  '/static/voiceover/scene_5.mp3',
+  '/static/voiceover/scene_6.mp3',
+  '/static/voiceover/scene_7.mp3',
 ];
 
 self.addEventListener('install', function(event) {

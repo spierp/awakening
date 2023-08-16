@@ -13,7 +13,7 @@ let isModalOpen = false;
 let voiceoverAudio = document.getElementById('voiceover-audio');
 let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
 
-audio.volume = 0.7;
+audio.volume = 0.8;
 voiceoverAudio.volume = 1.0;
 
 let inventory = [];
@@ -60,15 +60,18 @@ document.getElementById('closeModal').addEventListener('click', function() {
 function applyKenBurnsEffect(data) {
     let video = document.getElementById('background-video');
 
+    // First, reset any animation:
+    video.style.animation = 'none';
+
+    // Force reflow. This helps in re-triggering the animation.
+    video.offsetWidth; 
+
     if (data.kenBurns) {
         video.style.setProperty('--startScale', data.kenBurns.startScale);
         video.style.setProperty('--endScale', data.kenBurns.endScale);
         video.style.setProperty('--startPosition', data.kenBurns.startPosition);
         video.style.setProperty('--endPosition', data.kenBurns.endPosition);
         video.style.animation = `kenBurns ${data.kenBurns.duration} forwards`;
-    } else {
-        // If no Ken Burns settings, reset animation
-        video.style.animation = '';
     }
 }
 
@@ -119,8 +122,6 @@ function loadOptions(options) {
         optionsContainer.style.opacity = 1;
     }, 500);
 }
-
-
 
 function loadScene(sceneNumber) {
     let optionsContainer = document.getElementById('options-container');
