@@ -13,6 +13,7 @@ let isModalOpen = false;
 let voiceoverAudio = document.getElementById('voiceover-audio');
 let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
 let backgroundSound = null;
+let audioContext = Howler.ctx;
 
 let inventory = [];
 
@@ -114,7 +115,16 @@ function loadOptions(options) {
             if (voiceoverAudio.currentTime > 0) { // Check if voiceover is playing
                 voiceoverAudio.muted = false;
             }
-
+        
+            // Try to resume the AudioContext
+            if (audioContext && audioContext.state && audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    console.log('AudioContext resumed successfully');
+                }).catch((error) => {
+                    console.error('Failed to resume AudioContext:', error);
+                });
+            }
+        
             loadScene(option.nextScene);  // Continue with loading the scene
         });
 
@@ -150,6 +160,7 @@ function loadScene(sceneNumber) {
 
                 if (backgroundSound && backgroundSound._src[0] !== data.audio_url) {
                     backgroundSound.unload();
+                    console.log("unloading background sound")
                     backgroundSound = null;
                 }
                 
