@@ -102,7 +102,7 @@ function loadOptions(options) {
         // If the option doesn't specify an inventory item, or if it does and the player has that item, include the option
         return !option.inventory_item || inventory.includes(option.inventory_item);
     });
-
+    
     for (let i = 0; i < availableOptions.length; i++) {
         let option = availableOptions[i];
 
@@ -111,7 +111,13 @@ function loadOptions(options) {
         optionDiv.classList.add('option');
 
         optionDiv.addEventListener('click', function() {
-            loadScene(option.nextScene);
+            // Unmute the audio as the scene changes
+            audio.muted = false;
+            if (voiceoverAudio.currentTime > 0) { // Check if voiceover is playing
+                voiceoverAudio.muted = false;
+            }
+
+            loadScene(option.nextScene);  // Continue with loading the scene
         });
 
         optionsContainer.appendChild(optionDiv);
@@ -144,15 +150,19 @@ function loadScene(sceneNumber) {
                 voiceoverAudio.pause();   
                 video.src = data.video_url;
 
-                // Check if the next scene's audio is the same as the current one.
                 if (audioSource.src !== new URL(data.audio_url, window.location.origin).href) {
-                    // If they're different, update the audio source and play.
                     audio.pause();
                     audioSource.src = data.audio_url;
-                    audio.load(); 
-                    setTimeout(() => {
-                        audio.play();
-                    }, 500);
+                    audio.load();
+                    audio.muted = true; 
+                    audio.play().then(() => {
+                        // Once the audio starts playing, unmute it after a short delay
+                        setTimeout(() => {
+                            audio.muted = false;
+                        }, 100);
+                    }).catch(error => {
+                        console.error("Error playing audio:", error);
+                    });
                 }
 
                 let positions = data.positions;
@@ -171,9 +181,7 @@ function loadScene(sceneNumber) {
                 if (data.voiceover_url) {
                     voiceoverAudioSource.src = data.voiceover_url;
                     voiceoverAudio.load();
-                    setTimeout(() => {
-                        voiceoverAudio.play();
-                    }, 500);
+                    voiceoverAudio.play();
                 }
 
                 if (data.modal && data.modal.image_url && data.modal.description) {

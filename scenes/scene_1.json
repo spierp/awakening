@@ -1,9 +1,9 @@
 {
     "title": "The Awakening",
     "kenBurns": {
-      "startScale": "1.5",
+      "startScale": "2",
       "endScale": "1.0",
-      "startPosition": "right center",
+      "startPosition": "left center",
       "endPosition": "center center",
       "duration": "20s"
     },

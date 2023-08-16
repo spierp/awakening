@@ -224,6 +224,7 @@ body {
 }
 
 #background-video {
+    object-fit: cover !important;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
     width: 100%;
