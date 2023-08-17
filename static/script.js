@@ -207,20 +207,27 @@ function loadScene(sceneNumber) {
                 
                 video.load();
                 
-                if (data.voiceover_url) {
-                    // Stop and unload the current voiceover if it exists
-                    if (currentVoiceoverSound) {
-                        currentVoiceoverSound.stop();
-                        currentVoiceoverSound.unload();
-                        currentVoiceoverSound = null;
+                // Delay the voiceover initiation
+                setTimeout(() => {
+                    if (data.voiceover_url) {
+                        // Stop and unload the current voiceover if it exists
+                        if (currentVoiceoverSound) {
+                            currentVoiceoverSound.stop();
+                            currentVoiceoverSound.unload();
+                            currentVoiceoverSound = null;
+                        }
+
+                        currentVoiceoverSound = new Howl({
+                            src: [data.voiceover_url],
+                            volume: 1.0
+                        });
+
+                        // Play the voiceover after a short delay
+                        setTimeout(() => {
+                            currentVoiceoverSound.play();
+                        }, 300); // This delay allows browsers to recognize user interaction
                     }
-                
-                    currentVoiceoverSound = new Howl({
-                        src: [data.voiceover_url],
-                        volume: 1.0
-                    });
-                    currentVoiceoverSound.play();
-                }
+                }, 1000); // This gives a half-second grace period for scene elements
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
