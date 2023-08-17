@@ -14,8 +14,9 @@ let voiceoverAudio = document.getElementById('voiceover-audio');
 let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
 let backgroundSound = null;
 let audioContext = Howler.ctx;
-let currentBackgroundSoundURL = null; // Add this state variable at the beginning
+let currentBackgroundSound = null; // Add this state variable at the beginning
 let currentVoiceoverSound = null;
+let voiceoverPlayTrigger = document.getElementById('voiceover-play-trigger');
 
 let inventory = [];
 
@@ -156,43 +157,42 @@ function loadScene(sceneNumber) {
             return response.json()
         })
         .then(data => {
-                currentSceneData = data; 
+                currentSceneData = data;
 
-                // First, try to activate the AudioContext using the workaround:
-                audio.addEventListener('canplay', function() {
-                    audio.play().then(() => {
-                        // Once the audio starts playing, unmute it after a short delay
-                        setTimeout(() => {
-                            audio.muted = false;
-                        }, 100);
-                    }).catch(error => {
-                        console.error("Error playing audio:", error);
-                    });
-                });
-
+                // Background Audio
                 audioSource.src = data.audio_url;
                 audio.load();
                 audio.muted = true;
 
-                // Now, proceed with loading your scene as usual
-                voiceoverAudio.pause();
-                video.src = data.video_url;
-
-                if (data.audio_url && currentBackgroundSoundURL !== data.audio_url.trim()) {
-                    if (backgroundSound) {
-                        backgroundSound.unload();
-                        console.log("background sound unloaded");
-                    }
-                
-                    backgroundSound = new Howl({
-                        src: [data.audio_url],
-                        volume: 0.8,
-                        loop: true
+                audio.addEventListener('canplay', function() {
+                    audio.play().then(() => {
+                        setTimeout(() => {
+                            audio.muted = false;
+                        }, 100);
                     });
-                    backgroundSound.play();
-                
-                    currentBackgroundSoundURL = data.audio_url.trim(); 
+                });
+
+                // Voiceover Audio
+                if (currentVoiceoverSound) {
+                    currentVoiceoverSound.stop();
+                    currentVoiceoverSound.unload();
                 }
+
+                if (data.voiceover_url) {
+                    currentVoiceoverSound = new Howl({
+                        src: [data.voiceover_url],
+                        volume: 1.0,
+                        onplay: function() {
+                            // Additional logic when voiceover starts (if needed)
+                        }
+                    });
+
+                    currentVoiceoverSound.play();
+                }
+
+                // Background Video
+                video.src = data.video_url;
+                video.load();
 
                 let positions = data.positions;
 
@@ -207,31 +207,25 @@ function loadScene(sceneNumber) {
                 
                 video.load();
                 
-                // Delay the voiceover initiation
-                setTimeout(() => {
-                    if (data.voiceover_url) {
-                        console.log('Preparing voiceover...');
-
-                        // Stop and unload the current voiceover if it exists
-                        if (currentVoiceoverSound) {
-                            console.log('unloading current voiceover...');
-                            currentVoiceoverSound.stop();
-                            currentVoiceoverSound.unload();
-                            currentVoiceoverSound = null;
-                        }
-
-                        currentVoiceoverSound = new Howl({
-                            src: [data.voiceover_url],
-                            volume: 1.0
-                        });
-
-                        // Play the voiceover after a short delay
-                        setTimeout(() => {
-                            console.log('paying new voiceover...');
-                            currentVoiceoverSound.play();
-                        }, 500); // This delay allows browsers to recognize user interaction
+                if (data.voiceover_url) {
+                    // Stop and unload the current voiceover if it exists
+                    if (currentVoiceoverSound) {
+                        currentVoiceoverSound.stop();
+                        currentVoiceoverSound.unload();
                     }
-                }, 2000); // This gives a half-second grace period for scene elements
+                
+                    // Use Howler.js to handle the voiceover
+                    currentVoiceoverSound = new Howl({
+                        src: [data.voiceover_url],
+                        volume: 1.0,
+                        onplay: function() {
+                            // Once the voiceover starts playing, you can add any additional logic here if needed
+                        }
+                    });
+                
+                    // Play the voiceover
+                    currentVoiceoverSound.play();
+                }
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
