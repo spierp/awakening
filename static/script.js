@@ -15,6 +15,7 @@ let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
 let backgroundSound = null;
 let audioContext = Howler.ctx;
 let currentBackgroundSoundURL = null; // Add this state variable at the beginning
+let currentVoiceoverSound = null;
 
 let inventory = [];
 
@@ -207,12 +208,18 @@ function loadScene(sceneNumber) {
                 video.load();
                 
                 if (data.voiceover_url) {
-                    // voiceoverSound.unload();
-                    let voiceoverSound = new Howl({
-                      src: [data.voiceover_url],
-                      volume: 1.0
+                    // Stop and unload the current voiceover if it exists
+                    if (currentVoiceoverSound) {
+                        currentVoiceoverSound.stop();
+                        currentVoiceoverSound.unload();
+                        currentVoiceoverSound = null;
+                    }
+                
+                    currentVoiceoverSound = new Howl({
+                        src: [data.voiceover_url],
+                        volume: 1.0
                     });
-                    voiceoverSound.play();
+                    currentVoiceoverSound.play();
                 }
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
