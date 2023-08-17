@@ -210,8 +210,11 @@ function loadScene(sceneNumber) {
                 // Delay the voiceover initiation
                 setTimeout(() => {
                     if (data.voiceover_url) {
+                        console.log('Preparing voiceover...');
+
                         // Stop and unload the current voiceover if it exists
                         if (currentVoiceoverSound) {
+                            console.log('unloading current voiceover...');
                             currentVoiceoverSound.stop();
                             currentVoiceoverSound.unload();
                             currentVoiceoverSound = null;
@@ -224,10 +227,11 @@ function loadScene(sceneNumber) {
 
                         // Play the voiceover after a short delay
                         setTimeout(() => {
+                            console.log('paying new voiceover...');
                             currentVoiceoverSound.play();
-                        }, 300); // This delay allows browsers to recognize user interaction
+                        }, 500); // This delay allows browsers to recognize user interaction
                     }
-                }, 1000); // This gives a half-second grace period for scene elements
+                }, 2000); // This gives a half-second grace period for scene elements
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
