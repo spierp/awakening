@@ -81,7 +81,7 @@ function typeText(text) {
     const content = document.getElementById('content');
     content.innerHTML = '';
     let i = 0;
-    const typingSpeed = 50; // You can adjust this value to change the typing speed
+    const typingSpeed = 45; // You can adjust this value to change the typing speed
     const interval = setInterval(() => {
         if (i < text.length) {
             let span = document.createElement('span');
