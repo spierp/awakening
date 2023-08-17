@@ -14,6 +14,7 @@ let voiceoverAudio = document.getElementById('voiceover-audio');
 let voiceoverAudioSource = document.getElementById('voiceover-audio-source');
 let backgroundSound = null;
 let audioContext = Howler.ctx;
+let currentBackgroundSoundURL = null; // Add this state variable at the beginning
 
 let inventory = [];
 
@@ -157,35 +158,39 @@ function loadScene(sceneNumber) {
                 currentSceneData = data; 
 
                 // First, try to activate the AudioContext using the workaround:
-                audio.pause();
+                audio.addEventListener('canplay', function() {
+                    audio.play().then(() => {
+                        // Once the audio starts playing, unmute it after a short delay
+                        setTimeout(() => {
+                            audio.muted = false;
+                        }, 100);
+                    }).catch(error => {
+                        console.error("Error playing audio:", error);
+                    });
+                });
+
                 audioSource.src = data.audio_url;
                 audio.load();
                 audio.muted = true;
-                audio.play().then(() => {
-                    // Once the audio starts playing, unmute it after a short delay
-                    setTimeout(() => {
-                        audio.muted = false;
-                    }, 100);
-                }).catch(error => {
-                    console.error("Error playing audio:", error);
-                });
 
                 // Now, proceed with loading your scene as usual
                 voiceoverAudio.pause();
                 video.src = data.video_url;
 
-                if (backgroundSound && backgroundSound._src[0] !== data.audio_url) {
-                    backgroundSound.unload();
-                    backgroundSound = null;
-                }
-
-                if (!backgroundSound) {
+                if (data.audio_url && currentBackgroundSoundURL !== data.audio_url.trim()) {
+                    if (backgroundSound) {
+                        backgroundSound.unload();
+                        console.log("background sound unloaded");
+                    }
+                
                     backgroundSound = new Howl({
                         src: [data.audio_url],
                         volume: 0.8,
                         loop: true
                     });
                     backgroundSound.play();
+                
+                    currentBackgroundSoundURL = data.audio_url.trim(); 
                 }
 
                 let positions = data.positions;
