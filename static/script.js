@@ -172,21 +172,23 @@ function loadScene(sceneNumber) {
                     });
                 });
 
-                // Voiceover Audio
-                if (currentVoiceoverSound) {
-                    currentVoiceoverSound.stop();
-                    currentVoiceoverSound.unload();
-                }
-
                 if (data.voiceover_url) {
+                    // Stop and unload the current voiceover if it exists
+                    if (currentVoiceoverSound) {
+                        currentVoiceoverSound.stop();
+                        currentVoiceoverSound.unload();
+                    }
+                
+                    // Use Howler.js to handle the voiceover
                     currentVoiceoverSound = new Howl({
                         src: [data.voiceover_url],
                         volume: 1.0,
                         onplay: function() {
-                            // Additional logic when voiceover starts (if needed)
+                            // Once the voiceover starts playing, you can add any additional logic here if needed
                         }
                     });
-
+                
+                    // Play the voiceover
                     currentVoiceoverSound.play();
                 }
 
@@ -207,25 +209,7 @@ function loadScene(sceneNumber) {
                 
                 video.load();
                 
-                if (data.voiceover_url) {
-                    // Stop and unload the current voiceover if it exists
-                    if (currentVoiceoverSound) {
-                        currentVoiceoverSound.stop();
-                        currentVoiceoverSound.unload();
-                    }
-                
-                    // Use Howler.js to handle the voiceover
-                    currentVoiceoverSound = new Howl({
-                        src: [data.voiceover_url],
-                        volume: 1.0,
-                        onplay: function() {
-                            // Once the voiceover starts playing, you can add any additional logic here if needed
-                        }
-                    });
-                
-                    // Play the voiceover
-                    currentVoiceoverSound.play();
-                }
+
 
                 if (data.modal && data.modal.image_url && data.modal.description) {
                     let modalImage = document.getElementById('modal-image');
