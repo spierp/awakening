@@ -5,7 +5,18 @@ TODO(spierp): Add inspiring intro about the game.
 ## Running the game (Flask App)
 ### Development:
 ```
-$ python webapp/run.py
+# Create a clean virtual env for the game development:
+python3 -m venv game_venv
+
+# Activate the venv:
+source game_venv/bin/activate
+pip install --upgrade -r requirements.txt
+
+# Run the Flask dev server:
+python webapp/run.py
+
+# Get out of the venv when done:
+deactivate
 ```
 
 Play the game by going to [http://localhost:5000](http://localhost:5000)
